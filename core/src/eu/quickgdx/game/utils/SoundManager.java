@@ -1,8 +1,10 @@
-package eu.quickgdx.game;
+package eu.quickgdx.game.utils;
 
 import com.badlogic.gdx.audio.Sound;
 
 import java.util.HashMap;
+
+import eu.quickgdx.game.QuickGdx;
 
 /**
  * Created by Mathias Lux, mathias@juggle.at, 05.02.2016.

@@ -1,7 +1,8 @@
-package eu.quickgdx.game;
+package eu.quickgdx.game.utils;
 
 import com.badlogic.gdx.Screen;
 
+import eu.quickgdx.game.QuickGdx;
 import eu.quickgdx.game.screens.CreditsScreen;
 import eu.quickgdx.game.screens.GameplayScreen;
 import eu.quickgdx.game.screens.LoadingScreen;

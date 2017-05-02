@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import eu.quickgdx.game.QuickGdx;
-import eu.quickgdx.game.ScreenManager;
+import eu.quickgdx.game.AssetManager;
+import eu.quickgdx.game.utils.ScreenManager;
 
 /**
  * Created by Mathias Lux, mathias@juggle.at,  on 04.02.2016.
@@ -16,7 +16,7 @@ import eu.quickgdx.game.ScreenManager;
 public class LoadingScreen extends ScreenAdapter {
     private final SpriteBatch batch;
     private final OrthographicCamera cam;
-    private QuickGdx parentGame;
+    private AssetManager parentGame;
     private Texture loadingSheet;
     private TextureRegion[] loadingFrames;
 
@@ -24,14 +24,14 @@ public class LoadingScreen extends ScreenAdapter {
     private float animationFrameShownFor = 0.05f; // how long is each frame shown ..
     private float animationFrameShownAlready = 0f;
 
-    public LoadingScreen(QuickGdx game) {
+    public LoadingScreen(AssetManager game) {
         this.parentGame = game;
         // this is the only asset not loaded by the AssetManager.
         loadingSheet = new Texture(Gdx.files.internal("loading/preloader_180x40.png"));
         loadingFrames = TextureRegion.split(loadingSheet, 180, 40)[0];
 
         // Create camera taht projects the game onto the actual screen size.
-        cam = new OrthographicCamera(QuickGdx.GAME_WIDTH, QuickGdx.GAME_HEIGHT);
+        cam = new OrthographicCamera(AssetManager.GAME_WIDTH, AssetManager.GAME_HEIGHT);
 
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
@@ -58,7 +58,7 @@ public class LoadingScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(loadingFrames[animationFrame], QuickGdx.GAME_WIDTH/2 - loadingFrames[animationFrame].getRegionWidth()/2, QuickGdx.GAME_HEIGHT/2-loadingFrames[animationFrame].getRegionHeight()/2);
+        batch.draw(loadingFrames[animationFrame], AssetManager.GAME_WIDTH/2 - loadingFrames[animationFrame].getRegionWidth()/2, AssetManager.GAME_HEIGHT/2-loadingFrames[animationFrame].getRegionHeight()/2);
         batch.end();
     }
 

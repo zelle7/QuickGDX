@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import eu.quickgdx.game.QuickGdx;
-import eu.quickgdx.game.ScreenManager;
+
+import eu.quickgdx.game.utils.AssetConfig;
+import eu.quickgdx.game.utils.AssetManager;
+import eu.quickgdx.game.utils.ScreenManager;
 
 /**
  * Created by Mathias Lux, mathias@juggle.at,  on 04.02.2016.
@@ -17,7 +19,7 @@ import eu.quickgdx.game.ScreenManager;
 public class CreditsScreen extends ScreenAdapter {
     private final SpriteBatch batch;
     private final OrthographicCamera cam;
-    private QuickGdx parentGame;
+    private AssetManager assetManager;
 
     Texture backgroundImage, gradientTop, gradientBottom;
     BitmapFont creditsFont;
@@ -30,17 +32,17 @@ public class CreditsScreen extends ScreenAdapter {
     private float moveY;
 
 
-    public CreditsScreen(QuickGdx game) {
-        this.parentGame = game;
+    public CreditsScreen(AssetManager game) {
+        this.assetManager = game;
 
-        backgroundImage = parentGame.getAssetManager().get("menu/menu_background.jpg");
-        gradientTop = parentGame.getAssetManager().get("credits/gradient_top.png");
-        gradientBottom = parentGame.getAssetManager().get("credits/gradient_bottom.png");
+        backgroundImage = assetManager.getTextureAsset(AssetConfig.MENU_BACKGROUND);
+        gradientTop = assetManager.getTextureAsset(AssetConfig.CREDITS_GRADIENT_TOP);
+        gradientBottom = assetManager.getTextureAsset(AssetConfig.CREDITS_GRADIENT_BOTTOM);
 
-        creditsFont = parentGame.getAssetManager().get("menu/Ravie_42.fnt");
+        creditsFont = assetManager.get(AssetConfig.FONT_RAVIE_42.assetDescriptor.fileName, BitmapFont.class);
 
         // Create camera that projects the game onto the actual screen size.
-        cam = new OrthographicCamera(QuickGdx.GAME_WIDTH, QuickGdx.GAME_HEIGHT);
+        cam = new OrthographicCamera(AssetManager.GAME_WIDTH, AssetManager.GAME_HEIGHT);
 
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
@@ -50,7 +52,7 @@ public class CreditsScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        moveY += delta*100;
+        moveY += delta * 100;
         handleInput();
         // camera:
         cam.update();
@@ -61,24 +63,24 @@ public class CreditsScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         // draw bgImage
-        batch.draw(backgroundImage, 0, 0, QuickGdx.GAME_WIDTH, QuickGdx.GAME_HEIGHT);
+        batch.draw(backgroundImage, 0, 0, AssetManager.GAME_WIDTH, AssetManager.GAME_HEIGHT);
 
         // draw moving text:
         for (int i = 0; i < credits.length; i++) {
-            creditsFont.draw(batch, credits[i], QuickGdx.GAME_WIDTH/8, moveY - i*creditsFont.getLineHeight()*1.5f);
+            creditsFont.draw(batch, credits[i], AssetManager.GAME_WIDTH / 8, moveY - i * creditsFont.getLineHeight() * 1.5f);
         }
 
 
         // draw gradient
-        batch.draw(gradientBottom, 0, 0, QuickGdx.GAME_WIDTH, gradientBottom.getHeight());
-        batch.draw(gradientTop, 0, QuickGdx.GAME_HEIGHT-gradientTop.getHeight(), QuickGdx.GAME_WIDTH, gradientTop.getHeight());
+        batch.draw(gradientBottom, 0, 0, AssetManager.GAME_WIDTH, gradientBottom.getHeight());
+        batch.draw(gradientTop, 0, AssetManager.GAME_HEIGHT - gradientTop.getHeight(), AssetManager.GAME_WIDTH, gradientTop.getHeight());
 
         batch.end();
     }
 
     private void handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY) || Gdx.input.justTouched()) {
-            parentGame.getScreenManager().setCurrentState(ScreenManager.ScreenState.Menu);
+            assetManager.getScreenManager().setCurrentState(ScreenManager.ScreenState.Menu);
         }
     }
 
